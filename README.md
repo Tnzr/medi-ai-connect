@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Medi-AI Connect — Hackathon Demo (SIMULATED DATA)
 
-## Getting Started
+A 5-minute, localhost-only demo of the Medi-AI Connect platform concept: geospatial health insights + prediction, clinician-in-the-loop AI review, and offline-first edge sync for community health posts.
 
-First, run the development server:
+**Everything is simulated. No real patients, no PHI, no live ML. AI findings are clearly marked DRAFT.**
+
+## Run it
 
 ```bash
+cd medi-ai
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# open http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Node 24+ required (uses the built-in `node:sqlite` module). No Python, no Docker, no external services — works on conference wifi.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## The 5-minute demo script
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Land (`/`)** — pick a role. Sign in as **Health Official** (the demo lead path).
+2. **Map (`/map`)** — the centerpiece: case heatmap, district bubbles, facilities. Toggle the **7/14-day prediction overlay** — outbreak rings appear.
+3. **Flip region to Rural Pilot (`/map?region=rural`)** — San Miguel lights up critical (dengue outbreak curve in the simulated feed).
+4. **Edge Sync (`/edge`)** — 5 encrypted packets queued at offline health posts. Click **Sync now** — packets flip to synced; CIDs are content identifiers of encrypted payloads (PHI never leaves the device unencrypted — mirrors the store-and-forward design).
+5. **Insights (`/insights`)** — disease trend lines, nutritional-demand signal, outbreak watchlist, illustrative stratified-abstention panel.
+6. **Switch role to Clinician (`/`)** → **Encounters (`/encounters`)** — sign off a draft TB finding (regulatory banner: nothing is diagnostic until clinician sign-off).
 
-## Learn More
+## Architecture (demo-shaped)
 
-To learn more about Next.js, take a look at the following resources:
+- **Next.js 14 App Router + TypeScript + Tailwind** — one process, zero config
+- **node:sqlite (`DatabaseSync`)** file DB at `data/medi-ai.db`, auto-seeded on first query — no native builds, no DB server
+- **Leaflet + leaflet.heat + OpenStreetMap tiles** (no API key); district circles/rings carry the data layer even if tiles fail offline
+- **Recharts** for trends
+- **Server actions** for sign-in/sign-out, clinician sign-off, edge packet sync
+- All epidemiology numbers are synthetic deterministic seed data (seeded PRNG), generated at first run
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Demo data model
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`districts`, `facilities`, `encounters`, `disease_reports` (8 weeks × 18 districts × 4 diseases), `predictions` (7/14-day with confidence bands), `sync_packets` (CID ledger), `users` (3 demo roles).
 
-## Deploy on Vercel
+## Out of scope (on purpose, for the 2-hour build)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Real IPFS daemon (CIDs are simulated but real-format), real auth (cookie role picker), live FHIR integration, WebRTC video, FDA/regulatory claims.

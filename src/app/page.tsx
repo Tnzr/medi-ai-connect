@@ -1,101 +1,102 @@
-import Image from "next/image";
+import Link from "next/link";
+import { signIn } from "./actions";
+
+const ROLES = [
+  {
+    role: "official",
+    title: "Health Official",
+    tagline: "Regional view for the demo lead",
+    detail: "Outbreak watchlist, district KPIs and where to send the mobile unit next.",
+    href: "/insights",
+    highlight: true,
+  },
+  {
+    role: "clinician",
+    title: "Clinician",
+    tagline: "Dr. Amara Osei",
+    detail: "Review draft AI findings on X-ray and fundus captures, then sign off or escalate.",
+    href: "/encounters",
+    highlight: false,
+  },
+  {
+    role: "chw",
+    title: "Community Health Worker",
+    tagline: "Luis Ramirez, edge nodes",
+    detail: "Queue encrypted encounter packets offline and batch-sync them when a link returns.",
+    href: "/edge",
+    highlight: false,
+  },
+] as const;
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <main className="min-h-screen px-6 py-10">
+      <div className="mx-auto max-w-6xl">
+        <section className="mb-10">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
+            Hackathon demo — Medi-AI Connect
+          </p>
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Medi-AI Connect</h1>
+          <p className="mt-4 max-w-2xl text-base opacity-80">
+            Geospatial health insights and case prediction for healthcare operations —
+            with a clinician firmly in the loop over every AI draft, and offline-first
+            edge sync so community health posts never lose an encounter.
+          </p>
+          <div className="mt-4">
+            <span className="rounded-full bg-amber-500/15 px-3 py-1 text-xs font-semibold text-amber-700 dark:text-amber-300">
+              SIMULATED DATA — demo only, not for clinical or operational use
+            </span>
+          </div>
+        </section>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <section className="mb-10">
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide opacity-60">
+            Pick a role to explore
+          </h2>
+          <div className="grid gap-4 md:grid-cols-3">
+            {ROLES.map((r) => (
+              <div
+                key={r.role}
+                className={`flex flex-col rounded-xl border p-5 ${
+                  r.highlight
+                    ? "border-emerald-500/40 bg-emerald-500/5"
+                    : "border-black/10 bg-black/[0.03] dark:border-white/10 dark:bg-white/[0.04]"
+                }`}
+              >
+                <h3 className="text-lg font-semibold">{r.title}</h3>
+                <p className="text-xs uppercase tracking-wide opacity-50">{r.tagline}</p>
+                <p className="mt-3 flex-1 text-sm opacity-80">{r.detail}</p>
+                <form action={signIn} className="mt-4">
+                  <input type="hidden" name="role" value={r.role} />
+                  <button
+                    type="submit"
+                    className={`w-full rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                      r.highlight
+                        ? "bg-emerald-600 text-white hover:bg-emerald-500"
+                        : "border border-black/20 hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10"
+                    }`}
+                  >
+                    Continue as {r.title}
+                  </button>
+                </form>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mb-10">
+          <Link
+            href="/map"
+            className="inline-block rounded-full border border-black/20 px-4 py-2 text-sm font-medium transition-colors hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10"
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+            Explore the map as a guest →
+          </Link>
+        </section>
+
+        <footer className="border-t border-black/10 pt-4 text-xs opacity-60 dark:border-white/10">
+          Demo build. All data simulated. No PHI, no real patients.
+        </footer>
+      </div>
+    </main>
   );
 }
