@@ -16,7 +16,7 @@ export function seed(): void {
 
     const generatedAt = new Date().toISOString();
     const { rows: reportRows } = buildWeeklyReports();
-    const predictionRows = buildPredictions(generatedAt);
+    const predictionRows = buildPredictions();
     const packets = buildSyncPackets();
 
     for (const u of USERS) {

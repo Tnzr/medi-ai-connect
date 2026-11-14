@@ -9,7 +9,6 @@ import type {
   Encounter,
   SyncPacket,
   DiseaseKey,
-  Prediction,
 } from './types';
 
 /** Deterministic PRNG (mulberry32) so re-seeding produces identical data. */
@@ -250,7 +249,7 @@ export function buildWeeklyReports(now = Date.now()): {
 }
 
 /** Predictions for every district × disease × horizon (7 & 14 days). */
-export function buildPredictions(generatedAt = new Date().toISOString()): {
+export function buildPredictions(): {
   districtId: string;
   diseaseKey: DiseaseKey;
   horizonDays: 7 | 14;

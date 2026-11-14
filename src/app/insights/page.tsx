@@ -8,8 +8,6 @@ export const dynamic = "force-dynamic";
 const REGIONS = ["miami", "rural"] as const;
 type Region = (typeof REGIONS)[number];
 
-const DISEASE_ORDER: DiseaseKey[] = ["dengue", "tb", "cholera", "malnutrition"];
-
 const DISEASE_LABEL: Record<DiseaseKey, string> = {
   dengue: "Dengue",
   tb: "TB",

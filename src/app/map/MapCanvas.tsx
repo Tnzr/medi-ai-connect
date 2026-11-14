@@ -14,13 +14,6 @@ const RISK_COLOR: Record<RiskLevel, string> = {
   critical: '#dc2626',
 };
 const RISK_RANK: Record<RiskLevel, number> = { low: 0, moderate: 1, high: 2, critical: 3 };
-const DISEASE_COLOR: Record<string, string> = {
-  dengue: '#f43f5e',
-  tb: '#8b5cf6',
-  cholera: '#06b6d4',
-  malnutrition: '#f59e0b',
-};
-
 const CENTER_BY_REGION: Record<Region, [number, number]> = {
   miami: [25.83, -80.25],
   rural: [9.16, -83.62],
