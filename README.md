@@ -40,3 +40,7 @@ Node 24+ required (uses the built-in `node:sqlite` module). No Python, no Docker
 ## Out of scope (on purpose, for the 2-hour build)
 
 Real IPFS daemon (CIDs are simulated but real-format), real auth (cookie role picker), live FHIR integration, WebRTC video, FDA/regulatory claims.
+
+## License
+
+Source code is released under the MIT License (see LICENSE). Datasets, pretrained third-party models and their documentation keep their own licenses.
